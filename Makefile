@@ -58,7 +58,7 @@ libfasttext.a: $(OBJS)
 	$(AR) rcs libfasttext.a $(OBJS)
 
 libfasttext.so: $(OBJS)
-	$(CXX) -shared -fPIC -Wl,-soname,libfasttext.so.1 -o libfasttest.so.1 $(OBJS) $(LDFLAGS)
+	$(CXX) -shared -fPIC -Wl,-soname,libfasttext.so.1 -o libfasttext.so.1 $(OBJS) $(LDFLAGS)
 
 install:
 	install -d -m 755 $(INSTALLDIR)
@@ -67,8 +67,9 @@ install:
 	install -d -m 755 $(bindir)
 	cp -f fasttext $(bindir) > /dev/null 2>&1; \
 	cp -f src/*.h $(includedir) > /dev/null 2>&1; \
-	cp -f libfasttext.* $(libdir) > /dev/null 2>&1; \
-	cd $(libdir); ln -s libfasttext.so.1 libfasttext.so
+	cp -f libfasttext.a $(libdir) > /dev/null 2>&1; \
+	cp -f libfasttext.so.1 $(libdir) 2>&1; \
+	ln -s $(libdir)/libfasttext.so.1 $(libdir)/libfasttext.so
 
 clean:
 	rm -rf *.o fasttext
