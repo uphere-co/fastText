@@ -13,6 +13,8 @@ CXXFLAGS = -pthread -std=c++0x
 LDFLAGS = -lpthread
 OBJS = args.o dictionary.o productquantizer.o matrix.o qmatrix.o vector.o model.o utils.o fasttext.o
 INCLUDES = -I.
+libdir = $(INSTALLDIR)/lib
+includedir = $(INSTALLDIR)/include
 
 opt: CXXFLAGS += -O3 -funroll-loops
 opt: fasttext libfasttext.a libfasttext.so
@@ -57,6 +59,13 @@ libfasttext.a: $(OBJS)
 libfasttext.so: $(OBJS)
 	$(CXX) -shared -fPIC -Wl,-soname,libfasttext.so.1 -o libfasttest.so.1 $(OBJS) $(LDFLAGS)
 
+install:
+	install -d -m 755 $(INSTALLDIR)
+	install -d -m 755 $(libdir)
+	install -d -m 755 $(includedir)
+	cp -f *.h $(includedir) > /dev/null 2>&1; \
+	cp -f libfasttext.so.1 $(libdir) > /dev/null 2>&1; \
+	cd $(libdir); ln -s libfasttext.so.1 libfasttext.so
 
 clean:
 	rm -rf *.o fasttext
