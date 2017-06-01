@@ -15,6 +15,7 @@ OBJS = args.o dictionary.o productquantizer.o matrix.o qmatrix.o vector.o model.
 INCLUDES = -I.
 libdir = $(INSTALLDIR)/lib
 includedir = $(INSTALLDIR)/include
+bindir = $(INSTALLDIR)/bin
 
 opt: CXXFLAGS += -O3 -funroll-loops
 opt: fasttext libfasttext.a libfasttext.so
@@ -63,8 +64,10 @@ install:
 	install -d -m 755 $(INSTALLDIR)
 	install -d -m 755 $(libdir)
 	install -d -m 755 $(includedir)
-	cp -f *.h $(includedir) > /dev/null 2>&1; \
-	cp -f libfasttext.so.1 $(libdir) > /dev/null 2>&1; \
+	install -d -m 755 $(bindir)
+	cp -f fasttext $(bindir) > /dev/null 2>&1; \
+	cp -f src/*.h $(includedir) > /dev/null 2>&1; \
+	cp -f libfasttext.* $(libdir) > /dev/null 2>&1; \
 	cd $(libdir); ln -s libfasttext.so.1 libfasttext.so
 
 clean:
